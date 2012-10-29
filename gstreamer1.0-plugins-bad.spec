@@ -1,4 +1,4 @@
-%define version 1.0.1
+%define version 1.0.2
 %define release %mkrel 1
 
 %define api		1.0
@@ -583,6 +583,9 @@ Plug-in for CELT support under GStreamer.
 
 
 %changelog
+* Mon Oct 29 2012 Arkady L. Shane <ashejn@rosalab.ru> 1.0.2-1
+- update to 1.0.2
+
 * Wed Oct 24 2012 Arkady L. Shane <ashejn@rosalab.ru> 1.0.1-1
 - update to 1.0.1
 
