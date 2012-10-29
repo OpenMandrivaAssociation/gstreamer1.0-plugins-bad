@@ -414,6 +414,8 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{api}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{api}/libgstliveadder.so
 %{_libdir}/gstreamer-%{api}/libgstfrei0r.so
+%{_libdir}/gstreamer-%{api}/libgstfieldanalysis.so
+%{_libdir}/gstreamer-%{api}/libgstsubenc.so
 # This appears to have been removed. Commenting out (at least temporarily).
 # -- shlomif
 # %{_libdir}/gstreamer-%{api}/libgstinvtelecine.so
