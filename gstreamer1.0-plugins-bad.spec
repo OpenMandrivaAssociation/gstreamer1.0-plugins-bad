@@ -1,14 +1,5 @@
-%define version 1.0.2
-%define release %mkrel 1
-
 %define api		1.0
 %define bname		gstreamer%{api}
-%define name		%{bname}-plugins-bad
-
-%define build_plf	0
-##if "%{?distro_section}" == "tainted"
-##define build_plf	1
-##endif
 
 %define build_experimental	0
 %{?_with_experimental: %{expand: %%global build_experimental 1}}
@@ -21,9 +12,17 @@
 %define build_gme	1
 %define build_celt	1
 
-%if %build_plf
+##########################
+# Hardcode PLF build
+%define build_plf	0
+##########################
+
+%if %{build_plf}
+%define distsuffix plf
+# make EVR of plf build higher than regular to allow update, needed with rpm5 mkrel
+%define extrarelsuffix plf
 %define build_amrwb	0
-%define build_faac	0
+%define build_faac	1
 %define build_faad	1
 %define build_xvid	0
 %define build_dts	1
@@ -35,20 +34,18 @@
 %define libnamebase	%mklibname gstbasevideo %{api} %{libmajor}
 %define develnamebase	%mklibname -d gstbasevideo %{api}
 
-Summary: 	GStreamer Streaming-media framework plug-ins
-Name: 		%{name}
-Version: 	%{version}
-Release: 	%{release}
-License: 	LGPLv2+ and GPLv2+
+Summary:	GStreamer Streaming-media framework plug-ins
+Name:		%{bname}-plugins-bad
+Version:	1.0.2
+Release:	1%{?extrarelsuffix}
+License:	LGPLv2+ and GPLv2+
 Group: 		Sound
+URL:		http://gstreamer.freedesktop.org/
 Source0:	http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Patch0:		gst-plugins-bad-0.10.7-wildmidi-timidity.cfg.patch
-# ovitters: doesn't apply
-#Patch1:		gst-plugins-bad-0.10.22-disable-example.patch
 # gw: fix for bug #36437 (paths to realplayer codecs)
 # prefer codecs from the RealPlayer package in restricted
 Patch10:	gst-plugins-bad-0.10.6-real-codecs-path.patch
-URL:		http://gstreamer.freedesktop.org/
 #gw for the pixbuf plugin
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(glib-2.0)
@@ -61,12 +58,10 @@ BuildRequires:	pkgconfig(libmusicbrainz)
 BuildRequires:	pkgconfig(exempi-2.0)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(openal)
-BuildRequires:  pkgconfig(opus)
-
+BuildRequires:	pkgconfig(opus)
 %ifarch %ix86
 BuildRequires:	nasm => 0.90
 %endif
-
 BuildRequires:	pkgconfig(valgrind)
 BuildRequires:	pkgconfig(check)
 BuildRequires:	pkgconfig(gstreamer-plugins-base-1.0) >= %{version}
@@ -75,7 +70,7 @@ BuildRequires:	pkgconfig(libcdaudio)
 BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	pkgconfig(libmimic)
 BuildRequires:	pkgconfig(libass)
-%if %build_plf
+%if %{build_plf}
 BuildRequires:	pkgconfig(vo-aacenc)
 BuildRequires:	pkgconfig(vo-amrwbenc)
 %endif
@@ -85,7 +80,6 @@ BuildRequires:	fonts-ttf-dejavu
 #gw for autoreconf
 BuildRequires:	gettext-devel
 Requires:	%{bname}-voip >= %{version}-%{release}
-Conflicts:	gstreamer1.0-plugins-base < 0.11.94
 
 %description
 GStreamer is a streaming-media framework, based on graphs of filters which
@@ -106,10 +100,9 @@ you can fix the problem and send us a patch, or bribe someone into
 fixing them for you.  New contributors can start here for things to
 work on.
 
-%if %build_plf
-This package is in the 'tainted' section as it violates some patents.
+%if %{build_plf}
+This package is in restricted repository as it violates some patents.
 %endif
-
 
 %package -n %{libnamephoto}
 Summary:	Libraries for GStreamer streaming-media framework
@@ -196,7 +189,7 @@ mjpegtools-based encoding and decoding plug-in.
 %{_libdir}/gstreamer-%{api}/libgstmpeg2enc.so
 %{_libdir}/gstreamer-%{api}/libgstmplex.so
 
-%if %build_gme
+%if %{build_gme}
 %package -n %{bname}-gme
 Summary:	GStreamer Game Music plug-in
 Group:		Sound
@@ -209,7 +202,7 @@ Game Music decoding plug-in.
 %{_libdir}/gstreamer-%{api}/libgstgme.so
 %endif
 
-%if %build_dirac
+%if %{build_dirac}
 %package -n %{bname}-dirac
 Summary:	GStreamer dirac plug-in
 Group:		Video
@@ -226,7 +219,7 @@ Dirac encoding and decoding plug-in.
 Summary:	GStreamer dirac plug-in based on Schroedinger
 Group:		Video
 BuildRequires:	pkgconfig(schroedinger-1.0)
-Epoch: 1
+Epoch:		1
 
 %description -n %{bname}-schroedinger
 Dirac encoding and decoding plug-in based on Schroedinger.
@@ -258,16 +251,17 @@ Plug-ins for decoding DTS audio.
 %{_libdir}/gstreamer-%{api}/libgstdtsdec.so
 %endif
 
-%if %build_xvid
+%if %{build_xvid}
 %package -n %{bname}-xvid
 Summary:	GStreamer plug-ins for XVID video encoding and decoding
 Group:		Video
 BuildRequires:	xvid-devel >= 1.1
- 
+
 %description -n %{bname}-xvid
 Plug-ins for encoding and decoding XVID video.
- 
-This package is in the 'tainted' section as it violates some patents.
+
+This package is in restricted repository as it violates some patents.
+
 %files -n %{bname}-xvid
 %{_libdir}/gstreamer-%{api}/libgstxvid.so
 %endif
@@ -344,30 +338,30 @@ This is the documentation of %{name}.
 
 %build
 %configure2_5x --disable-dependency-tracking --disable-static \
-  --with-package-name='%distribution %{name} package' \
-  --with-package-origin='http://www.mageia.org/' \
-%if ! %build_celt
+  --with-package-name='Rosa %{name} package' \
+  --with-package-origin='http://www.rosalinux.com/' \
+%if ! %{build_celt}
 	--disable-celt \
 %endif
-%if ! %build_faac
+%if ! %{build_faac}
 	--disable-faac \
 %endif
-%if ! %build_faad
+%if ! %{build_faad}
 	--disable-faad \
 %endif
-%if ! %build_dirac
-        --disable-dirac \
+%if ! %{build_dirac}
+	--disable-dirac \
 %endif
-%if ! %build_xvid
-        --disable-xvid \
+%if ! %{build_xvid}
+	--disable-xvid \
 %endif
-%if ! %build_dts
-        --disable-dts \
+%if ! %{build_dts}
+	--disable-dts \
 %endif
-%if ! %build_plf
-        --disable-voamrwbenc --disable-voaacenc \
+%if ! %{build_plf}
+	--disable-voamrwbenc --disable-voaacenc \
 %endif
-%if %build_experimental
+%if %{build_experimental}
 	--enable-experimental
 %endif
 
@@ -387,24 +381,23 @@ find %{buildroot} -name '*.la' -delete
 %{_datadir}/gtk-doc/html/
 
 %files -f gst-plugins-bad-%{api}.lang
-%doc AUTHORS COPYING README NEWS 
-
+%doc AUTHORS COPYING README NEWS
 %{_libdir}/gstreamer-%{api}/libgstadpcmdec.so
 %{_libdir}/gstreamer-%{api}/libgstadpcmenc.so
 %{_libdir}/gstreamer-%{api}/libgstasfmux.so
-#%{_libdir}/gstreamer-%{api}/libgstaudioparsersbad.so
 %{_libdir}/gstreamer-%{api}/libgstaudiovisualizers.so
 %{_libdir}/gstreamer-%{api}/libgstautoconvert.so
 %{_libdir}/gstreamer-%{api}/libgstbayer.so
 %{_libdir}/gstreamer-%{api}/libgstcamerabin2.so
 %{_libdir}/gstreamer-%{api}/libgstcoloreffects.so
-#{_libdir}/gstreamer-%{api}/libgstcolorspace.so
 %{_libdir}/gstreamer-%{api}/libgstdataurisrc.so
 %{_libdir}/gstreamer-%{api}/libgstdebugutilsbad.so
 %{_libdir}/gstreamer-%{api}/libgstdvb.so
 %{_libdir}/gstreamer-%{api}/libgstdvbsuboverlay.so
 %{_libdir}/gstreamer-%{api}/libgstdvdspu.so
+%{_libdir}/gstreamer-%{api}/libgstfieldanalysis.so
 %{_libdir}/gstreamer-%{api}/libgstfestival.so
+%{_libdir}/gstreamer-%{api}/libgstfrei0r.so
 %{_libdir}/gstreamer-%{api}/libgstgaudieffects.so
 %{_libdir}/gstreamer-%{api}/libgstgdp.so
 %{_libdir}/gstreamer-%{api}/libgstgeometrictransform.so
@@ -413,25 +406,12 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{api}/libgstinterlace.so
 %{_libdir}/gstreamer-%{api}/libgstjpegformat.so
 %{_libdir}/gstreamer-%{api}/libgstliveadder.so
-%{_libdir}/gstreamer-%{api}/libgstfrei0r.so
-%{_libdir}/gstreamer-%{api}/libgstfieldanalysis.so
-%{_libdir}/gstreamer-%{api}/libgstsubenc.so
-# This appears to have been removed. Commenting out (at least temporarily).
-# -- shlomif
-# %{_libdir}/gstreamer-%{api}/libgstinvtelecine.so
 %{_libdir}/gstreamer-%{api}/libgstmpegtsmux.so
-# This appears to have been removed. Commenting out (at least temporarily).
-# -- shlomif
-# %{_libdir}/gstreamer-%{api}/libgstmpeg4videoparse.so
 %{_libdir}/gstreamer-%{api}/libgstmimic.so
-#{_libdir}/gstreamer-%{api}/libgstopencv.so
-
 %{_libdir}/gstreamer-%{api}/libgstmpegpsdemux.so
-
 %{_libdir}/gstreamer-%{api}/libgstopus.so
 %{_libdir}/gstreamer-%{api}/libgstpcapparse.so
 %{_libdir}/gstreamer-%{api}/libgstpnm.so
-#%{_libdir}/gstreamer-%{api}/libgstqtmux.so
 %{_libdir}/gstreamer-%{api}/libgstscaletempoplugin.so
 %{_libdir}/gstreamer-%{api}/libgstrawparse.so
 %{_libdir}/gstreamer-%{api}/libgstremovesilence.so
@@ -441,59 +421,50 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{api}/libgstsiren.so
 %{_libdir}/gstreamer-%{api}/libgstsmooth.so
 %{_libdir}/gstreamer-%{api}/libgstspeed.so
+%{_libdir}/gstreamer-%{api}/libgstsubenc.so
 %{_libdir}/gstreamer-%{api}/libgstbz2.so
 %{_libdir}/gstreamer-%{api}/libgstfragmented.so
 %{_libdir}/gstreamer-%{api}/libgstmpegtsdemux.so
 %{_libdir}/gstreamer-%{api}/libgstvideoparsersbad.so
-#{_libdir}/gstreamer-%{api}/libgstwaylandsink.so
 %if %{build_plf}
 %{_libdir}/gstreamer-%{api}/libgstvoaacenc.so
 %{_libdir}/gstreamer-%{api}/libgstvoamrwbenc.so
 %{_datadir}/gstreamer-%{api}/presets/GstVoAmrwbEnc.prs
 %endif
-%if %build_experimental
+%if %{build_experimental}
 #%{_libdir}/gstreamer-%{api}/libgstdeinterlace2.so
 %endif
 
 %{_libdir}/gstreamer-%{api}/libgstmodplug.so
 %{_libdir}/gstreamer-%{api}/libgsty4mdec.so
 
-#%package examples
-#Summary:GStreamer example applications
-#Group: Video
-
-#%description examples
-#This contains example applications to test %{name}
-
-#%files examples
-
-%if %build_faad
+%if %{build_faad}
 %package -n %{bname}-faad
 Summary:	GStreamer plug-in for AAC audio playback
 Group:		Sound
-Requires:	%{bname}-plugins >= %version
-BuildRequires:	libfaad2-devel => 2.0
- 
+Requires:	%{bname}-plugins >= %{version}
+BuildRequires:	libfaad2-devel
+
 %description -n %{bname}-faad
 Plug-ins for playing AAC audio
- 
-This package is in the 'tainted' section as it violates some patents.
+
+This package is in restricted repository as it violates some patents.
 
 %files -n %{bname}-faad
 %{_libdir}/gstreamer-%{api}/libgstfaad.so
 %endif
 
-%if %build_faac
+%if %{build_faac}
 %package -n %{bname}-faac
 Summary:	GStreamer plug-ins for AAC audio encoding
 Group:		Sound
-Requires:	%{bname}-plugins >= %version
+Requires:	%{bname}-plugins >= %{version}
 BuildRequires:	libfaac-devel
- 
+
 %description -n %{bname}-faac
 Plug-ins for encoding AAC audio
- 
-This package is in the 'tainted' section as it violates some patents.
+
+This package is in restricted repository as it violates some patents.
 
 %files -n %{bname}-faac
 %{_libdir}/gstreamer-%{api}/libgstfaac.so
@@ -526,7 +497,7 @@ Plug-in for rendering Flash animations using swfdec library
 %{_libdir}/gstreamer-%{api}/libgstswfdec.so
 %endif
 
-%if %build_amrwb
+%if %{build_amrwb}
 %package -n %{bname}-amrwb
 Summary:	GStreamer plug-in for AMR-WB support
 Group:		Sound
@@ -536,14 +507,14 @@ BuildRequires:	libamrwb-devel
 %description -n %{bname}-amrwb
 Plug-in for decoding AMR-WB under GStreamer.
 
-This package is in the 'tainted' section as it violates some patents.
+This package is in restricted repository as it violates some patents.
 
 %files -n %{bname}-amrwb
 %{_datadir}/gstreamer-%{api}/presets/GstAmrwbEnc.prs
 %{_libdir}/gstreamer-%{api}/libgstamrwbenc.so
 %endif
 
-%if %build_celt
+%if %{build_celt}
 %package -n %{bname}-celt
 Summary:	GStreamer plug-in for CELT support
 Group:		Video
@@ -577,64 +548,10 @@ Plug-in for CELT support under GStreamer.
 %{_libdir}/libgstbasecamerabinsrc-%{api}.so.%{libmajor}*
 %{_libdir}/libgstbasevideo-%{api}.so.%{libmajor}*
 
-%files -n %develnamebase
+%files -n %{develnamebase}
 %{_libdir}/libgstbasecamerabinsrc-%{api}.so
 %{_libdir}/libgstbasevideo-%{api}.so
 %{_includedir}/gstreamer-%{api}/gst/basecamerabinsrc/*
 %{_libdir}/pkgconfig/gstreamer-basevideo-%{api}.pc
 
-
-%changelog
-* Mon Oct 29 2012 Arkady L. Shane <ashejn@rosalab.ru> 1.0.2-1
-- update to 1.0.2
-
-* Wed Oct 24 2012 Arkady L. Shane <ashejn@rosalab.ru> 1.0.1-1
-- update to 1.0.1
-
-* Mon Sep 24 2012 fwang <fwang> 1.0.0-1.mga3
-+ Revision: 297087
-- new version 1.0.0
-
-* Tue Sep 18 2012 fwang <fwang> 0.11.99-1.mga3.tainted
-+ Revision: 295773
-- update file list
-- update file list
-- new version 0.11.99
-
-* Sat Sep 15 2012 fwang <fwang> 0.11.94-2.mga3.tainted
-+ Revision: 294185
-- opencv not ready now
-- rebuild for rpm gst1.0 provides
-
-* Fri Sep 14 2012 fwang <fwang> 0.11.94-1.mga3.tainted
-+ Revision: 293814
-- update file list
-- update file list
-- new version 0.11.94
-
-  + blino <blino>
-    - package soundtouch plugin (pitch element is required by totem)
-
-* Wed Sep 05 2012 fwang <fwang> 0.11.93-3.mga3.tainted
-+ Revision: 288351
-- xvid not ported to new api
-
-* Wed Sep 05 2012 fwang <fwang> 0.11.93-3.mga3
-+ Revision: 288330
-- drop unneed obsoletes so that gst 1.0 and 0.10 can co-exist
-
-* Wed Sep 05 2012 fwang <fwang> 0.11.93-2.mga3
-+ Revision: 288324
-- drop glib req
-- more cleanup on spec
-- drop unused obsolete so that we could make 1.0 and 0.10 co-exist
-- cleanup spec, and rename devel package so that it won't conflict with gst0.10
-
-  + ovitters <ovitters>
-    - clean spec
-
-* Tue Sep 04 2012 ovitters <ovitters> 0.11.93-1.mga3
-+ Revision: 288230
-- br gstreamer-1.0
-- imported package gstreamer1.0-plugins-bad
 
