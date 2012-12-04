@@ -36,7 +36,7 @@
 
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
-Version:	1.0.2
+Version:	1.0.3
 Release:	1%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
@@ -169,7 +169,7 @@ applications and plugins for GStreamer.
 %package -n %{bname}-curl
 Summary:	GStreamer Curl plugin
 Group:		Networking/Other
-BuildRequires:	libcurl-devel
+BuildRequires:	pkgconfig(libcurl)
 
 %description -n %{bname}-curl
 This is a HTTP plugin for GStreamer based on the curl library.
