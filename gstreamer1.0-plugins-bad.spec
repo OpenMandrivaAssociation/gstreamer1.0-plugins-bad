@@ -37,7 +37,7 @@
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
 Version:	1.0.3
-Release:	1%{?extrarelsuffix}
+Release:	2%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
 URL:		http://gstreamer.freedesktop.org/
@@ -227,15 +227,16 @@ Dirac encoding and decoding plug-in based on Schroedinger.
 %files -n %{bname}-schroedinger
 %{_libdir}/gstreamer-%{api}/libgstschro.so
 
-%package -n %{bname}-vp8
+%package -n %{bname}-rtpvp8
 Summary:	GStreamer VP8 plug-in
 Group:		Video
 BuildRequires:	pkgconfig(vpx)
+Conflicts: %{bname}-vp8 < 1.0.3-2
 
-%description -n %{bname}-vp8
+%description -n %{bname}-rtpvp8
 VP8 encoding and decoding plug-in.
 
-%files -n %{bname}-vp8
+%files -n %{bname}-rtpvp8
 %{_libdir}/gstreamer-%{api}/libgstrtpvp8.so
 
 %if %build_dts
