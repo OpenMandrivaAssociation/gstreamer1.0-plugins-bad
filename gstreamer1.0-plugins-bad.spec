@@ -36,7 +36,7 @@
 
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
-Version:	1.0.6
+Version:	1.0.7
 Release:	1%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
