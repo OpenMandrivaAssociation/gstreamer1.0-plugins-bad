@@ -429,6 +429,9 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{api}/libgstvideoparsersbad.so
 %{_libdir}/gstreamer-%{api}/libgstdecklink.so
 %{_libdir}/gstreamer-%{api}/libgstmpegpsmux.so
+%{_libdir}/gstreamer-%{api}/libgstmidi.so
+%{_libdir}/gstreamer-%{api}/libgstopenal.so
+%{_libdir}/gstreamer-%{api}/libgstrfbsrc.so
 %if %{build_plf}
 %{_libdir}/gstreamer-%{api}/libgstvoaacenc.so
 %{_libdir}/gstreamer-%{api}/libgstvoamrwbenc.so
