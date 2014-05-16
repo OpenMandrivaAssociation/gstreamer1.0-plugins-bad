@@ -638,23 +638,23 @@ Plug-in for CELT support under GStreamer.
 
 %files -n %{libnamempegts}
 %{_libdir}/libgstmpegts-%{api}.so.%{libmajor}*
-%{_libdir}/girepository-%{api}/GstMpegts-%{api}.typelib
+#%{_libdir}/girepository-%{api}/GstMpegts-%{api}.typelib
 
 %files -n %{develnamempegts}
 %{_libdir}/libgstmpegts-%{api}.so
 %{_includedir}/gstreamer-%{api}/gst/mpegts/*
 %{_libdir}/pkgconfig/gstreamer-mpegts-%{api}.pc
-%{_datadir}/gir-%{api}/GstMpegts-%{api}.gir
+#%{_datadir}/gir-%{api}/GstMpegts-%{api}.gir
 
 %files -n %{libnameinsertbin}
 %{_libdir}/libgstinsertbin-%{api}.so.%{libmajor}*
-%{_libdir}/girepository-%{api}/GstInsertBin-%{api}.typelib
+#%{_libdir}/girepository-%{api}/GstInsertBin-%{api}.typelib
 
 %files -n %{develnameinsertbin}
 %{_libdir}/libgstinsertbin-%{api}.so
 %{_includedir}/gstreamer-%{api}/gst/insertbin/*
 %{_libdir}/pkgconfig/gstreamer-insertbin-%{api}.pc
-%{_datadir}/gir-%{api}/GstInsertBin-%{api}.gir
+#%{_datadir}/gir-%{api}/GstInsertBin-%{api}.gir
 
 %files -n %{libnameuridownloader}
 %{_libdir}/libgsturidownloader-%{api}.so.%{libmajor}*
