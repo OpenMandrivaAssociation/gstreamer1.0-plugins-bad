@@ -43,7 +43,7 @@
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
 Version:	1.2.4
-Release:	1%{?extrarelsuffix}
+Release:	2%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
 URL:		http://gstreamer.freedesktop.org/
@@ -77,6 +77,7 @@ BuildRequires:	pkgconfig(libcdaudio)
 BuildRequires:	pkgconfig(sndfile)
 BuildRequires:	pkgconfig(libmimic)
 BuildRequires:	pkgconfig(libass)
+BuildRequires:  pkgconfig(dvdnav)
 %if %{build_plf}
 BuildRequires:	pkgconfig(vo-aacenc)
 BuildRequires:	pkgconfig(vo-amrwbenc)
@@ -518,6 +519,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{api}/libgstivtc.so
 %{_libdir}/gstreamer-%{api}/libgstmfc.so
 %{_libdir}/gstreamer-%{api}/libgstmxf.so
+%{_libdir}/gstreamer-%{api}/libgstresindvd.so
 %{_libdir}/gstreamer-%{api}/libgstsmoothstreaming.so
 %{_libdir}/gstreamer-%{api}/libgstvideofiltersbad.so
 %{_libdir}/gstreamer-%{api}/libgstyadif.so
