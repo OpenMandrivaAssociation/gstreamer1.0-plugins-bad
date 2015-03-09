@@ -42,8 +42,8 @@
 
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
-Version:	1.2.4
-Release:	2%{?extrarelsuffix}
+Version:	1.4.5
+Release:	1%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
 URL:		http://gstreamer.freedesktop.org/
