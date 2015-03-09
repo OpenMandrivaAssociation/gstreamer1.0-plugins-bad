@@ -416,7 +416,7 @@ This is the documentation of %{name}.
 %configure2_5x --disable-dependency-tracking --disable-static \
   --with-package-name='Rosa %{name} package' \
   --with-package-origin='http://www.rosalinux.com/' \
-  --disable-directfb
+  --disable-directfb \
 %if ! %{build_celt}
 	--disable-celt \
 %endif
