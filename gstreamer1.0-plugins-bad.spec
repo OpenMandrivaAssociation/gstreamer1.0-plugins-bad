@@ -269,11 +269,11 @@ plugins.
 This package contains the libraries and includes files necessary to develop
 applications and plugins for GStreamer.
 
-%package -n %{libbadbase}
+%package -n %{libnamebadbase}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:          System/Libraries
 
-%description -n %{libbadbase}
+%description -n %{libnamebadbase}
 GStreamer is a streaming-media framework, based on graphs of filters which
 operate on media data. Applications using this library can do anything
 from real-time sound processing to playing videos, and just about anything
@@ -283,13 +283,13 @@ plugins.
 
 This package contains the libraries.
 
-%package -n %{develbadbase}
+%package -n %{develnamebadbase}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:		Development/C
-Requires:	%{libbadbase} = %{version}-%{release}
+Requires:	%{libnamebadbase} = %{version}-%{release}
 Provides:	gstbasevideo%{api}-devel = %{version}-%{release}
 
-%description -n %{develbadbase}
+%description -n %{develnamebadbase}
 GStreamer is a streaming-media framework, based on graphs of filters which
 operate on media data. Applications using this library can do anything
 from real-time sound processing to playing videos, and just about anything
@@ -297,11 +297,11 @@ else media-related.  Its plugin-based architecture means that new data
 types or processing capabilities can be added simply by installing new
 plugins.
 
-%package -n %{libbadvideo}
+%package -n %{libnamebadvideo}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:          System/Libraries
 
-%description -n %{libbadvideo}
+%description -n %{libnamebadvideo}
 GStreamer is a streaming-media framework, based on graphs of filters which
 operate on media data. Applications using this library can do anything
 from real-time sound processing to playing videos, and just about anything
@@ -311,13 +311,13 @@ plugins.
 
 This package contains the libraries.
 
-%package -n %{develbadvideo}
+%package -n %{develnamebadvideo}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:		Development/C
-Requires:	%{libbadvideo} = %{version}-%{release}
+Requires:	%{libnamebadvideo} = %{version}-%{release}
 Provides:	gstbasevideo%{api}-devel = %{version}-%{release}
 
-%description -n %{develbadvideo}
+%description -n %{develnamebadvideo}
 GStreamer is a streaming-media framework, based on graphs of filters which
 operate on media data. Applications using this library can do anything
 from real-time sound processing to playing videos, and just about anything
@@ -738,14 +738,14 @@ Plug-in for CELT support under GStreamer.
 %{_libdir}/libgstbasecamerabinsrc-%{api}.so
 %{_includedir}/gstreamer-%{api}/gst/basecamerabinsrc/*
 
-%files -n %{libbadbase}
+%files -n %{libnamebadbase}
 %{_libdir}/libgstbadbase-%{api}.so.%{libmajor}*
 
-%files -n %{develbadbase}
+%files -n %{develnamebadbase}
 %{_libdir}/libgstbadbase-%{api}.so
 
-%files -n %{libbadvideo}
+%files -n %{libnamebadvideo}
 %{_libdir}/libgstbadvideo-%{api}.so.%{libmajor}*
 
-%files -n %{develbadvideo}
+%files -n %{develnamebadvideo}
 %{_libdir}/libgstbadvideo-%{api}.so
