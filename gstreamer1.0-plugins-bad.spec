@@ -48,10 +48,7 @@ License:	LGPLv2+ and GPLv2+
 Group: 		Sound
 URL:		http://gstreamer.freedesktop.org/
 Source0:	http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
-Patch0:		gst-plugins-bad-0.10.7-wildmidi-timidity.cfg.patch
-# gw: fix for bug #36437 (paths to realplayer codecs)
-# prefer codecs from the RealPlayer package in restricted
-Patch10:	gst-plugins-bad-0.10.6-real-codecs-path.patch
+Patch0:		0001-srtpdec-Add-support-for-RTP-RTCP-mixing-if-data-arri.patch
 #gw for the pixbuf plugin
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(glib-2.0)
