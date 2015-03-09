@@ -39,6 +39,11 @@
 %define develnameuridownloader	%mklibname -d gsturidownloader %{api}
 %define libnameinsertbin	%mklibname -d gstinsertbin %{api} %{libmajor}
 %define develnameinsertbin	%mklibname -d gstinsertbin %{api}
+%define libnamebadbase		%mklibname gstbadbase %{api} %{libmajor}
+%define develnamebadbase	%mklibname -d gstbadbase %{api}
+%define libnamebadvideo		%mklibname gstbadvideo %{api} %{libmajor}
+%define develnamebadvideo	%mklibname -d gstbadvideo %{api}
+
 
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
@@ -263,6 +268,62 @@ plugins.
 
 This package contains the libraries and includes files necessary to develop
 applications and plugins for GStreamer.
+
+%package -n %{libbadbase}
+Summary:        Libraries for GStreamer streaming-media framework
+Group:          System/Libraries
+
+%description -n %{libbadbase}
+GStreamer is a streaming-media framework, based on graphs of filters which
+operate on media data. Applications using this library can do anything
+from real-time sound processing to playing videos, and just about anything
+else media-related.  Its plugin-based architecture means that new data
+types or processing capabilities can be added simply by installing new
+plugins.
+
+This package contains the libraries.
+
+%package -n %{develbadbase}
+Summary:        Libraries for GStreamer streaming-media framework
+Group:		Development/C
+Requires:	%{libbadbase} = %{version}-%{release}
+Provides:	gstbasevideo%{api}-devel = %{version}-%{release}
+
+%description -n %{develbadbase}
+GStreamer is a streaming-media framework, based on graphs of filters which
+operate on media data. Applications using this library can do anything
+from real-time sound processing to playing videos, and just about anything
+else media-related.  Its plugin-based architecture means that new data
+types or processing capabilities can be added simply by installing new
+plugins.
+
+%package -n %{libbadvideo}
+Summary:        Libraries for GStreamer streaming-media framework
+Group:          System/Libraries
+
+%description -n %{libbadvideo}
+GStreamer is a streaming-media framework, based on graphs of filters which
+operate on media data. Applications using this library can do anything
+from real-time sound processing to playing videos, and just about anything
+else media-related.  Its plugin-based architecture means that new data
+types or processing capabilities can be added simply by installing new
+plugins.
+
+This package contains the libraries.
+
+%package -n %{develbadvideo}
+Summary:        Libraries for GStreamer streaming-media framework
+Group:		Development/C
+Requires:	%{libbadvideo} = %{version}-%{release}
+Provides:	gstbasevideo%{api}-devel = %{version}-%{release}
+
+%description -n %{develbadvideo}
+GStreamer is a streaming-media framework, based on graphs of filters which
+operate on media data. Applications using this library can do anything
+from real-time sound processing to playing videos, and just about anything
+else media-related.  Its plugin-based architecture means that new data
+types or processing capabilities can be added simply by installing new
+plugins.
 
 %package -n %{bname}-curl
 Summary:	GStreamer Curl plugin
@@ -510,16 +571,22 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-%{api}/libgstaiff.so
 %{_libdir}/gstreamer-%{api}/libgstaudiofxbad.so
 %{_libdir}/gstreamer-%{api}/libgstdashdemux.so
-%{_libdir}/gstreamer-%{api}/libgstdfbvideosink.so
 %{_libdir}/gstreamer-%{api}/libgstfbdevsink.so
 %{_libdir}/gstreamer-%{api}/libgstfreeverb.so
 %{_libdir}/gstreamer-%{api}/libgstivtc.so
-%{_libdir}/gstreamer-%{api}/libgstmfc.so
 %{_libdir}/gstreamer-%{api}/libgstmxf.so
 %{_libdir}/gstreamer-%{api}/libgstresindvd.so
 %{_libdir}/gstreamer-%{api}/libgstsmoothstreaming.so
 %{_libdir}/gstreamer-%{api}/libgstvideofiltersbad.so
 %{_libdir}/gstreamer-%{api}/libgstyadif.so
+%{_libdir}/gstreamer-%{api}/libgstaudiomixer.so
+%{_libdir}/gstreamer-%{api}/libgstcompositor.so
+%{_libdir}/gstreamer-%{api}/libgstivfparse.so
+%{_libdir}/gstreamer-%{api}/libgstjp2kdecimator.so
+%{_libdir}/gstreamer-%{api}/libgstsndfile.so
+%{_libdir}/gstreamer-%{api}/libgststereo.so
+%{_libdir}/gstreamer-%{api}/libgstvideosignal.so
+%{_libdir}/gstreamer-%{api}/libgstvmnc.so
 
 %if %{build_plf}
 %{_libdir}/gstreamer-%{api}/libgstvoaacenc.so
@@ -532,6 +599,8 @@ find %{buildroot} -name '*.la' -delete
 
 %{_libdir}/gstreamer-%{api}/libgstmodplug.so
 %{_libdir}/gstreamer-%{api}/libgsty4mdec.so
+
+
 
 %if %{build_faad}
 %package -n %{bname}-faad
@@ -669,4 +738,14 @@ Plug-in for CELT support under GStreamer.
 %{_libdir}/libgstbasecamerabinsrc-%{api}.so
 %{_includedir}/gstreamer-%{api}/gst/basecamerabinsrc/*
 
+%files -n %{libbadbase}
+%{_libdir}/libgstbadbase-%{api}.so.%{libmajor}*
 
+%files -n %{develbadbase}
+%{_libdir}/libgstbadbase-%{api}.so
+
+%files -n %{libbadvideo}
+%{_libdir}/libgstbadvideo-%{api}.so.%{libmajor}*
+
+%files -n %{develbadvideo}
+%{_libdir}/libgstbadvideo-%{api}.so
