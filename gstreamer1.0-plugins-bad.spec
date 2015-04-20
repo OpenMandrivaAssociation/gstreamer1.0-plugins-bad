@@ -33,11 +33,11 @@
 %define develnamephoto	%mklibname -d gstphotographyi %{api}
 %define libnamebase	%mklibname gstbasevideo %{api} %{libmajor}
 %define develnamebase	%mklibname -d gstbasevideo %{api}
-%define libnamempegts   %mklibname -d gstmpegts %{api} %{libmajor}
+%define libnamempegts   %mklibname gstmpegts %{api} %{libmajor}
 %define develnamempegts	%mklibname -d gstmpegts %{api}
-%define libnameuridownloader	%mklibname -d gsturidownloader %{api} %{libmajor}
+%define libnameuridownloader	%mklibname gsturidownloader %{api} %{libmajor}
 %define develnameuridownloader	%mklibname -d gsturidownloader %{api}
-%define libnameinsertbin	%mklibname -d gstinsertbin %{api} %{libmajor}
+%define libnameinsertbin	%mklibname gstinsertbin %{api} %{libmajor}
 %define develnameinsertbin	%mklibname -d gstinsertbin %{api}
 %define libnamebadbase		%mklibname gstbadbase %{api} %{libmajor}
 %define develnamebadbase	%mklibname -d gstbadbase %{api}
@@ -48,7 +48,7 @@
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
 Version:	1.4.5
-Release:	1%{?extrarelsuffix}
+Release:	2%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
 URL:		http://gstreamer.freedesktop.org/
@@ -164,6 +164,8 @@ Summary:        Libraries and include files for GStreamer streaming-media framew
 Group:          Development/C
 Requires:       %{libnamempegts} = %{version}-%{release}
 Provides:       gstmpegts%{api}-devel = %{version}-%{release}
+# package bug
+Obsoletes:	%{_lib}gstmpegts1.0_0-devel < 1.4.5-2
 
 %description -n %{develnamempegts}
 GStreamer is a streaming-media framework, based on graphs of filters which
@@ -179,6 +181,8 @@ applications and plugins for GStreamer.
 %package -n %{libnameuridownloader}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:          System/Libraries
+# package bug
+Obsoletes:	%{_lib}gsturidownloader1.0_0-devel < 1.4.5-2
 
 %description -n %{libnameuridownloader}
 GStreamer is a streaming-media framework, based on graphs of filters which
@@ -210,6 +214,8 @@ applications and plugins for GStreamer.
 %package -n %{libnameinsertbin}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:          System/Libraries
+# package bug
+Obsoletes:	%{_lib}gstinsertbin1.0_0-devel < 1.4.5-2
 
 %description -n %{libnameinsertbin}
 GStreamer is a streaming-media framework, based on graphs of filters which
@@ -726,9 +732,9 @@ Plug-in for CELT support under GStreamer.
 
 %files -n %{libnameuridownloader}
 %{_libdir}/libgsturidownloader-%{api}.so.%{libmajor}*
-%{_libdir}/libgsturidownloader-%{api}.so
 
 %files -n %{develnameuridownloader}
+%{_libdir}/libgsturidownloader-%{api}.so
 %{_includedir}/gstreamer-%{api}/gst/uridownloader/*
 
 %files -n %{libnamebase}
