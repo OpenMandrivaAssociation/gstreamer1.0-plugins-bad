@@ -48,7 +48,7 @@
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
 Version:	1.4.5
-Release:	2%{?extrarelsuffix}
+Release:	3%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
 URL:		http://gstreamer.freedesktop.org/
@@ -148,6 +148,8 @@ applications and plugins for GStreamer.
 %package -n %{libnamempegts}
 Summary:        Libraries for GStreamer streaming-media framework
 Group:          System/Libraries
+# package bug
+Obsoletes:	%{_lib}gstmpegts1.0_0-devel < 1.4.5-2
 
 %description -n %{libnamempegts}
 GStreamer is a streaming-media framework, based on graphs of filters which
@@ -164,8 +166,6 @@ Summary:        Libraries and include files for GStreamer streaming-media framew
 Group:          Development/C
 Requires:       %{libnamempegts} = %{version}-%{release}
 Provides:       gstmpegts%{api}-devel = %{version}-%{release}
-# package bug
-Obsoletes:	%{_lib}gstmpegts1.0_0-devel < 1.4.5-2
 
 %description -n %{develnamempegts}
 GStreamer is a streaming-media framework, based on graphs of filters which
