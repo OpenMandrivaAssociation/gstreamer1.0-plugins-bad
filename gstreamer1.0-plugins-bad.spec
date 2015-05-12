@@ -2,7 +2,6 @@
 %define bname		gstreamer%{api}
 
 %define build_experimental	0
-%{?_with_experimental: %{expand: %%global build_experimental 1}}
 %define build_amrwb	0
 %define build_faac	0
 %define build_faad	0
@@ -43,10 +42,10 @@
 Summary:	GStreamer Streaming-media framework plug-ins
 Name:		%{bname}-plugins-bad
 Version:	1.2.4
-Release:	3%{?extrarelsuffix}
+Release:	4%{?extrarelsuffix}
 License:	LGPLv2+ and GPLv2+
 Group: 		Sound
-URL:		http://gstreamer.freedesktop.org/
+Url:		http://gstreamer.freedesktop.org/
 Source0:	http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-%{version}.tar.xz
 Patch0:		gst-plugins-bad-0.10.7-wildmidi-timidity.cfg.patch
 # gw: fix for bug #36437 (paths to realplayer codecs)
